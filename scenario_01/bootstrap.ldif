@@ -1,0 +1,62 @@
+dn: ou=Users,dc=avix,dc=lk
+changetype: add
+objectClass: organizationalUnit
+ou: Users
+
+dn: ou=Groups,dc=avix,dc=lk
+changetype: add
+objectClass: organizationalUnit
+ou: Groups
+
+dn: uid=lnash94,ou=Users,dc=avix,dc=lk
+changetype: add
+objectClass: inetOrgPerson
+cn: Super Admin
+givenName: Lnashn
+sn: Lnashn
+uid: lnash94
+displayName: Sumudu Nissanka
+mail: lnash94.nk@gmail.com
+userpassword: lnash94
+
+dn: uid=janedoe,ou=Users,dc=avix,dc=lk
+changetype: add
+objectClass: inetOrgPerson
+cn: Admin
+givenName: Jane
+sn: Doe
+uid: janedoe
+displayName: Jane Doe
+mail: janedoe@gmail.com
+userpassword: janedoe123
+
+dn: uid=alicecarl,ou=Users,dc=avix,dc=lk
+changetype: add
+objectClass: inetOrgPerson
+cn: Customer
+givenName: Alice
+sn: Carl
+uid: alicecarl
+displayName: Alice Carl
+mail: alicecarl@gmail.com
+userpassword: alicecarl123
+
+dn: cn=Admin,ou=Groups,dc=avix,dc=lk
+changetype: add
+cn: Admin
+objectClass: groupOfNames
+member: uid=lnash94,ou=Users,dc=avix,dc=lk
+member: uid=janedoe,ou=Users,dc=avix,dc=lk
+
+dn: cn=Customer,ou=Groups,dc=avix,dc=lk
+changetype: add
+cn: Customer
+objectClass: groupOfNames
+member: uid=alicecarl,ou=Users,dc=avix,dc=lk
+
+dn: cn=Developer,ou=Groups,dc=avix,dc=lk
+changetype: add
+cn: Developer
+objectClass: groupOfNames
+member: uid=lnash94,ou=Users,dc=avix,dc=lk
+member: uid=janedoe,ou=Users,dc=avix,dc=lk
