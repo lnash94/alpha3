@@ -8,6 +8,8 @@ services:
       LDAP_DOMAIN: avix.lk
       LDAP_ADMIN_PASSWORD: avix123
       LDAP_BASE_DN: dc=avix,dc=lk
+      LDAP_TLS_VERIFY_CLIENT: never
+      # LDAPTLS_CIPHER_SUITE: NORMAL:!VERS-TLS1.2
     ports:
       - 9090:9090
       - 636:636
