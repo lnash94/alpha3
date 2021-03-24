@@ -8,6 +8,7 @@ http:ListenerConfiguration helloWorldEPConfig = {secureSocket: {key: {
         }}};
 
 listener http:Listener securedEp = new (9091, helloWorldEPConfig);
+listener http:Listener securedEpClient = new (9443);
 
 # Admin service   
 @http:ServiceConfig {auth: [{
@@ -34,7 +35,6 @@ listener http:Listener securedEp = new (9091, helloWorldEPConfig);
         },
         scopes: ["Admin"]
     }]}
-    
 service /admin on securedEp {
     resource function get .() returns string {
         return "Successful";
@@ -60,6 +60,31 @@ service /admin on securedEp {
             return validatejwt(jwt);
         } else {
             io:println("An error occurred while issuing the JWT: ", jwt.message());
+            return response;
+        }
+    }
+}
+
+# Customer inventory handle
+service /'order on securedEpClient {
+    resource function get .() returns http:Response|error {
+        http:Response response = new;
+        jwt:IssuerConfig issuerConfig = {
+            username: "admin",
+            issuer: "ballerina",
+            audience: "vEwzbcasJVQm1jVYHUHCjhxZ4tYa",
+            keyId: "NTAxZmMxNDMyZDg3MTU1ZGM0MzEzODJhZWI4NDNlZDU1OGFkNjFiMQ",
+            expTime: 3600,
+            signatureConfig: {config: {keyFile: "private.key"}}
+        };
+        string|jwt:Error jwt = jwt:issue(issuerConfig);
+        if (jwt is string) {
+            io:println("Issued JWT: ", jwt);
+            //call admin micro service for validating the service    
+            return validate(jwt);
+        } else {
+            io:println("An error occurred while issuing the JWT: ", jwt.message());
+            response.statusCode = 401;
             return response;
         }
     }

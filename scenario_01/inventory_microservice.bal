@@ -6,7 +6,7 @@ import ballerina/io;
 #
 # + jwt - Parameter string type jwt token
 # + return - Return Value http response  
-public function validatejwt(string jwt) returns http:Response {
+public function validate(string jwt) returns http:Response|error {
     http:Response outResponse = new;
     jwt:ValidatorConfig validatorConfig = {
         issuer: "ballerina",
@@ -17,10 +17,9 @@ public function validatejwt(string jwt) returns http:Response {
                 clientConfig: {secureSocket: {cert: "public.crt"}}
             }}
     };
-    jwt:Payload|jwt:Error result = jwt:validate(jwt, validatorConfig);
+    jwt:Payload result = check jwt:validate(jwt, validatorConfig);
     if (result is jwt:Payload) {
         io:println("Validated JWT Payload: ", result.toString());
-        // return responses
         // return responses
         outResponse.statusCode = 200;
         json|error payload = result.cloneWithType(json);
