@@ -18,20 +18,16 @@ public function validate(string jwt) returns http:Response|error {
             }}
     };
     jwt:Payload result = check jwt:validate(jwt, validatorConfig);
-    if (result is jwt:Payload) {
-        io:println("Validated JWT Payload: ", result.toString());
-        // return responses
-        outResponse.statusCode = 200;
-        json|error payload = result.cloneWithType(json);
-        if payload is json {
-            outResponse.setPayload(payload);
-        } else {
-            outResponse.statusCode = 403;
-        }
-        return outResponse;
+
+    io:println("Validated JWT Payload: ", result.toString());
+    // return responses
+    outResponse.statusCode = 200;
+    json|error payload = result.cloneWithType(json);
+    if payload is json {
+        outResponse.setPayload(payload);
     } else {
-        io:println("An error occurred while validating the JWT: ", result.message());
-        outResponse.statusCode = 401;
-        return outResponse;
+        outResponse.statusCode = 403;
     }
+    return outResponse;
+
 }

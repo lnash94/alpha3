@@ -10,12 +10,12 @@ http:Client securedEP = check new("https://localhost:9443", {
         scopes: ["Customer"],
         clientConfig: {
             secureSocket: {
-                cert: "../public.cert"
+                cert: "./public.cert"
             }
         }
     },
     secureSocket: {
-        cert: "../public.cert"
+        cert: "./public.cert"
     }
 });
 
